@@ -1,0 +1,128 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+interface Inventory {
+    + viewInvetory(): ItemSlot[]
+    + viewInvetory(int index): ItemSlot
+    + takeIntoInvetory(ItemSlot slot): Item
+    + selectSlot(int index): void
+    + getSelectedSlot(): ItemSlot
+    + <T extends Entity & Inventory> loot(T target): void
+}
+
+Inventory ..> Item
+Inventory ..> ItemSlot
+
+interface Stealable {
+    + onStolen(Entity stealer): Item
+}
+
+Stealable ..> Item
+Stealable ..> Entity
+
+
+abstract class Entity {
+    - String name
+    - double maxHp
+    - double hp
+    + Entity(String name, double hp)
+    + getName(): String
+    + getHp(): double
+    + isDead(): boolean
+    # onHeal(double health): void
+    # onDamage(double damage): boolean
+    # {abstract} onKilled(Entity killer): void
+}
+
+class Knight {
+    - ItemSlot leftHand;
+    - ItemSlot rightHand;
+    + Knight()
+    + Knight(Item rightItem)
+    + Knight(Item rightItem, Item leftItem)
+    + attack(Entity target): void
+}
+
+Knight --o ItemSlot
+Knight ..> Item
+
+Knight --|> Sword
+Knight --|> Entity
+Knight --|> Stealable
+
+class Thief {
+    - ItemSlot[] inventory
+    + steal(Stealable target): void
+}
+
+Thief --o ItemSlot
+Thief ..> Stealable
+Thief ..> Inventory
+
+Thief --|> Entity
+
+class Trader {
+    - ItemSlot[] inventory
+    - TradeOffer[] offers
+    + Trader(TradeOffer[] offers, ItemSlot[] stock)
+    + trade(Inventory buyer, int offerIndex): void
+}
+
+Trader --o ItemSlot
+Trader --o TradeOffer
+Trader ..|> Inventory
+Trader ..|> Stealable
+
+class TradeOffer<T extends Item, K extends Item> {
+    - Class<T> receiveItem
+    - Class<K> offerItem
+    + TraderOffer(T receive, K offer)
+    + getReceiveItem(): Class<T>
+    + getOfferItem(): Class<K>
+    + checkReceiveItem(Item item): boolean
+    + checkOfferItem(Item item): boolean
+}
+
+abstract class Item {
+    - String name
+    + Item(String name)
+    + getName(): String
+}
+
+class ItemSlot {
+    - Item item
+    + ItemSlot()
+    + ItemSlot(Item item)
+    + viewItem(): Item
+    + setItem(Item item): Item
+    + takeItem(): Item
+    + isEmpty(): boolean
+}
+
+TradeOffer --o Item
+
+ItemSlot --o Item
+
+class Shield {
+    - double defPow
+    + Shield(String name, double defPow)
+    + getDefPow(): double
+}
+
+Shield --|> Item
+
+class Gold {
+    + Gold()
+}
+
+Gold --|> Item
+
+class Sword {
+    - double atkPow
+    + Sword(String name, double defPow)
+    + getAtkPow(): double
+}
+
+Sword --|> Item
+
+@enduml
