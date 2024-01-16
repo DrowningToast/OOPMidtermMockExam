@@ -28,5 +28,13 @@ public abstract class Entity {
         return isDead();
     }
 
+    public void heal(double health) {
+        if (isDead()) {
+            System.out.println("The target is already dead!");
+            return;
+        }
+        this.hp = Math.min(maxHp, hp + health);
+    }
+
     protected abstract void onKilled(Entity killer);
 }

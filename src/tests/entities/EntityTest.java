@@ -1,6 +1,9 @@
 package tests.entities;
 
 import entities.Entity;
+import entities.Knight;
+import entities.Thief;
+import items.Sword;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -69,5 +72,31 @@ class EntityTest {
         public void onKilled(Entity killer) {
 
         }
+    }
+
+    @Test
+    public void testHealThief() {
+        Thief thief = new Thief();
+        double initialHealth = thief.getHp();
+
+        // Simulate the thief taking damage
+        double damage = 10.0;
+        Knight knight = new Knight(new Sword("Sword", damage));
+        knight.attack(thief);
+
+        // Ensure that the thief's health is reduced after taking damage
+        assertEquals(initialHealth - damage, thief.getHp());
+
+        // Simulate healing the thief
+        double healingAmount = 5.0;
+        thief.heal(healingAmount);
+
+        // Ensure that the thief's health is increased after healing
+        assertEquals(initialHealth - damage + healingAmount, thief.getHp());
+
+        // Attempt to heal a dead thief
+        Knight knight2 = new Knight(new Sword("", 999));
+        knight2.attack(thief);// Simulate fatal damage
+        assertTrue(thief.isDead());
     }
 }

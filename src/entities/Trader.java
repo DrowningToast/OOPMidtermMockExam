@@ -15,7 +15,9 @@ public class Trader extends Entity implements Inventory, Stealable {
     public Trader(TradeOffer[] offers, ItemSlot[] stock) {
         super("Trader", 20);
         this.offers = offers;
-        System.arraycopy(stock, 0, inventory, 0, Math.min(stock.length, inventory.length));
+        for (int i = 0; i < Math.min(inventory.length, stock.length); i++) {
+            inventory[i] = stock[i];
+        }
         if (stock.length > 5) {
             System.out.println("Stock is bigger than the trader inventory");
         }
@@ -29,10 +31,10 @@ public class Trader extends Entity implements Inventory, Stealable {
         TradeOffer offer = offers[offerIndex];
         // Check if the trader has offered item in the inventory or not
         for (ItemSlot sellerSlot: inventory) {
-            if (offer.checkOfferItem(sellerSlot.viewItem())) {
+            if (!sellerSlot.isEmpty() && offer.checkOfferItem(sellerSlot.viewItem())) {
                 // Trader has the item, now check if the buyer has or not
                 for (ItemSlot buyerSlot: buyer.viewInventory()) {
-                    if (offer.checkReceiveItem(buyerSlot.viewItem())) {
+                    if (!buyerSlot.isEmpty() && offer.checkReceiveItem(buyerSlot.viewItem())) {
                         // The buyer has the item, initialize the trading
                         Item payment = buyerSlot.takeItem();
                         Item offeredItem = sellerSlot.takeItem();
@@ -41,9 +43,12 @@ public class Trader extends Entity implements Inventory, Stealable {
                         return;
                     }
                 }
+                System.out.println("The buyer doesn't have a required item.");
+                return;
             }
         }
-        System.out.println("You do not have item required to trade.");
+        System.out.println("Seller doesn't have the offered item.");
+        return;
     }
 
     @Override

@@ -172,20 +172,20 @@ class ThiefTest {
     @Test
     public void testStealFromKnight() {
         Thief thief = new Thief();
-        Knight knight = new Knight(new Sword("KnightSword", 25.0), new Shield("KnightShield", 0.2));
+        Knight knight = new Knight(new Sword("KnightSword", 9999), new Shield("KnightShield", 0.2));
+        thief.takeIntoInventory(new ItemSlot(new Sword("ThiefSword", 20)));
 
         // Thief steals from the knight
         assertDoesNotThrow(() -> thief.steal(knight));
 
-        // Ensure that the thief has stolen the knight's items
-        assertTrue(thief.viewInventory(0).viewItem() instanceof Sword);
-        assertTrue(thief.viewInventory(1).viewItem() instanceof Shield);
-        assertEquals("KnightSword", thief.viewInventory(0).viewItem().getName());
-        assertEquals("KnightShield", thief.viewInventory(1).viewItem().getName());
+        // The knight attack back, killing the thief
+        assertTrue(thief.isDead());
 
-        // Ensure that the knight's hands are empty after being stolen
-        assertNull(knight.viewLeftHand());
-        assertNull(knight.viewRightHand());
+        // Ensures that knight still has the items and theif didn't steal
+        assertNotNull(knight.viewLeftHand());
+        assertNotNull(knight.viewRightHand());
+        assertNotNull(thief.viewInventory(0));
+        assertNull(thief.viewInventory(1).viewItem());
     }
 
 }

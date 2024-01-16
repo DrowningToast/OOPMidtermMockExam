@@ -14,11 +14,11 @@ Inventory ..> Item
 Inventory ..> ItemSlot
 
 interface Stealable {
-    + onStolen(Entity stealer): Item
+    + onStolen(Thief stealer): void
 }
 
 Stealable ..> Item
-Stealable ..> Entity
+Stealable ..> Thief
 
 
 abstract class Entity {
@@ -29,7 +29,7 @@ abstract class Entity {
     + getName(): String
     + getHp(): double
     + isDead(): boolean
-    # onHeal(double health): void
+    # heal(double health): void
     # onDamage(double damage): boolean
     # {abstract} onKilled(Entity killer): void
 }
@@ -124,5 +124,11 @@ class Sword {
 }
 
 Sword --|> Item
+
+class Utils {
+    + {static} transferInventory(Inventory from, Inventory to): void
+}
+
+Utils ..> Inventory
 
 @enduml
