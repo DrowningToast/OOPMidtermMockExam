@@ -1,4 +1,4 @@
-package tests;
+package tests.interfaces;
 
 import org.junit.jupiter.api.Test;
 

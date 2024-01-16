@@ -11,7 +11,7 @@ class GoldTest {
     public void testGetName() {
         Gold gold = new Gold();
 
-        assertEquals("items.Gold", gold.getName());
+        assertEquals("Gold", gold.getName());
     }
 
     @Test
@@ -21,6 +21,6 @@ class GoldTest {
         // Ensure that Gold is an instance of the Item class
         assertTrue(gold instanceof Item);
         // Ensure that the getName method of Gold returns the expected value
-        assertEquals("items.Gold", gold.getName());
+        assertEquals("Gold", gold.getName());
     }
 }

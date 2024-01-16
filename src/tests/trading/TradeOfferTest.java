@@ -13,7 +13,7 @@ class TradeOfferTest {
         Sword sword = new Sword("TestSword", 30.5);
         TradeOffer<Sword, Gold> tradeOffer = new TradeOffer<>(sword, new Gold());
 
-        assertEquals(Sword.class, tradeOffer.getReceiveItem());
+        assertEquals(sword.getName(), tradeOffer.getReceiveItem());
     }
 
     @Test
@@ -21,7 +21,7 @@ class TradeOfferTest {
         Gold gold = new Gold();
         TradeOffer<Sword, Gold> tradeOffer = new TradeOffer<>(new Sword("TestSword", 30.5), gold);
 
-        assertEquals(Gold.class, tradeOffer.getOfferItem());
+        assertEquals(gold.getName(), tradeOffer.getOfferItem());
     }
 
     @Test

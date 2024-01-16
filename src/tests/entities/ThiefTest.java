@@ -3,8 +3,6 @@ package tests.entities;
 import entities.Knight;
 import entities.Thief;
 import entities.Trader;
-import interfaces.Inventory;
-import interfaces.Stealable;
 import items.*;
 import org.junit.jupiter.api.Test;
 import trading.TradeOffer;

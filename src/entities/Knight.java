@@ -57,9 +57,11 @@ public class Knight extends Entity implements Stealable {
         }
         System.out.println("Z...z...");
         if (!rightHand.isEmpty()) {
+            System.out.println(rightHand.viewItem().getName());
             stealer.takeIntoInventory(rightHand);
         }
         if (!leftHand.isEmpty()) {
+            System.out.println(leftHand.viewItem().getName());
             stealer.takeIntoInventory(leftHand);
         }
     }

@@ -74,11 +74,11 @@ Trader ..|> Inventory
 Trader ..|> Stealable
 
 class TradeOffer<T extends Item, K extends Item> {
-    - Class<T> receiveItem
-    - Class<K> offerItem
+    - T receiveItem
+    - K offerItem
     + TraderOffer(T receive, K offer)
-    + getReceiveItem(): Class<T>
-    + getOfferItem(): Class<K>
+    + getReceiveItem(): String
+    + getOfferItem(): String
     + checkReceiveItem(Item item): boolean
     + checkOfferItem(Item item): boolean
 }

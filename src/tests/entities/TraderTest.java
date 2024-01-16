@@ -23,7 +23,7 @@ class TraderTest {
         );
         buyer = new Trader(
                 null,
-                new ItemSlot[] {new ItemSlot(new Gold())}
+                new ItemSlot[] {}
         );
     }
 
@@ -44,7 +44,7 @@ class TraderTest {
         assertDoesNotThrow( () -> trader.trade(buyer, 0));
 
         assertEquals(new Sword("TraderSword", 0).getName(), trader.viewInventory(0).viewItem().getName());
-        assertNull(buyer.viewInventory(0));
+        assertNull(buyer.viewInventory(0).viewItem());
     }
 
     @Test
@@ -60,10 +60,13 @@ class TraderTest {
     @Test
     public void testTradeGoldForSwordFullInventory() {
         for (int i = 0; i < trader.viewInventory().length; i++) {
-            trader.takeIntoInventory(new ItemSlot(new Sword("TraderSword" + i, 50)));
+            trader.takeIntoInventory(new ItemSlot(new Sword("TraderSword", 50)));
             buyer.takeIntoInventory(new ItemSlot(new Gold()));
         }
-    }
 
+        assertDoesNotThrow( () -> trader.trade(buyer, 0));
+        assertEquals(new Gold().getName(), trader.viewInventory(0).viewItem().getName());
+        assertEquals(new Sword("TraderSword", 50).getName(), buyer.viewInventory(0).viewItem().getName());
+    }
 
 }
